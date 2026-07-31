@@ -1,0 +1,28 @@
+name: Daily Commit Automation
+
+on:
+  schedule:
+    # Runs every day at 00:00 UTC (12:00 AM UTC)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Enables manual execution button in GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update log file
+        run: |
+          echo "- Daily commit on $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> LAST_COMMIT.md
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add LAST_COMMIT.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: automated daily commit [$(date -u +'%Y-%m-%d')]" && git push)
