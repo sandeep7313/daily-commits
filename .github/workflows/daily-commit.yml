@@ -22,7 +22,7 @@ jobs:
 
       - name: Commit and Push
         run: |
-          git config --local user.email "thesandeeptiwari3@gmail.com"
+          git config --local user.email "sandeepkumarrupeshkumar343@gmail.com"
           git config --local user.name "sandeep7313"
           git add LAST_COMMIT.md
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore: automated daily commit [$(date -u +'%Y-%m-%d')]" && git push)
